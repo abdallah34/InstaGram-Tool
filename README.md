@@ -5,11 +5,11 @@ For Linux only
 3) cd InstaGram-Tool
 4) apt install python3
 5) apt install tor
-6) tor --hash-password yourpassword
+6) tor --hash-password (yourpassword)
 7) nano /etc/tor/torrc
 8) past 
 ControlPort 9051
-HashedControlPassword passhash
+HashedControlPassword (passhash)
 CookieAuthentication 1
 9) service tor start
 10) pip install -r Requirements.txt
