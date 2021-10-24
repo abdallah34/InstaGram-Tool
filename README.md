@@ -12,5 +12,6 @@ ControlPort 9051
 HashedControlPassword (passhash)
 CookieAuthentication 1
 9) service tor start
-10) pip install -r Requirements.txt
-11) python3 Intagram-Tool.py
+10) curl --socks5 localhost:9050 --socks5-hostname localhost:9050 -s https://check.torproject.org/ | cat | grep -m 1 Congratulations | xargs
+11) pip install -r Requirements.txt
+12) python3 Intagram-Tool.py
