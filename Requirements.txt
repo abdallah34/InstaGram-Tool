@@ -1,5 +1,4 @@
 uuid
-secrets
 requests
-colored
+fake_useragent
 stem
