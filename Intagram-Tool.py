@@ -205,6 +205,10 @@ def login(ask,tokin,idd,key):
             us = str(''.join((random.choice(rm) for i in range(7))))
             user = "+96279"+ us
             passs = "079" + us
+        elif(key == "11"):
+            us = str(''.join((random.choice(rm) for i in range(7))))
+            user = "+98938"+ us
+            passs = "0938" + us
         uuid = uuid4()
         headers = {
                     'Host':'i.instagram.com',
@@ -294,6 +298,7 @@ Enter the country
 8 ) JO 077
 9 ) JO 078
 10) Jo 079
+11) IR 938
 --------------------------------------
 >>""")
     print("--------------------------------------")
