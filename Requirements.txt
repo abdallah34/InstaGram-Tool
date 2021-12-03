@@ -1,4 +1,3 @@
 uuid
 requests
-fake_useragent
-stem
+secrets
