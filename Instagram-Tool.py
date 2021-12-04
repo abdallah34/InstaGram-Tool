@@ -42,13 +42,17 @@ print(blue+
 #                                            ################
 
 ''')
+
+rer = requests.get("https://abdullahcoder.pythonanywhere.com/proxy/socks4").text
+ff = open("proxy.txt",'w')
+ff.write(rer)
+ff.close()
+
 def proxy():
-    re = requests.get("https://abdullahcoder.pythonanywhere.com/proxy/socks4").text
+    re  = open("proxy.txt",'r').read()
     r1 = re.splitlines()
     prox = random.choice(r1)
     return str(prox)
-
-
 
 def send_Tele(tokin,idd,text):
   requests.get("https://api.telegram.org/bot" + tokin + "/sendMessage" + "?chat_id=" + idd + "&text=" + text)
