@@ -43,7 +43,7 @@ print(blue+
 
 ''')
 
-rer = requests.get("https://abdullahcoder.pythonanywhere.com/proxy/socks4").text
+rer = requests.get("https://api.proxyscrape.com/v2/?request=displayproxies&protocol=socks4&timeout=10000&country=all&ssl=all&anonymity=all").text
 ff = open("proxy.txt",'w')
 ff.write(rer)
 ff.close()
